@@ -171,10 +171,9 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 def home():
     return {"status": "ok", "orders": len(ORDERS), "usage": "POST {\"question\": \"...\"}"}
 
-
 @app.post("/")
-@app.post("/ask")
-async def ask(request: Request, debug: int = 0):
+@app.post("/{full_path:path}")
+async def ask(request: Request, full_path: str = "", debug: int = 0):
     try:
         question = (await request.json()).get("question", "")
     except Exception:
